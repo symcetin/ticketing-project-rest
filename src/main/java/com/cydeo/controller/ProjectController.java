@@ -1,17 +1,11 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
-import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.ResponseWrapper;
 import com.cydeo.service.ProjectService;
-import com.cydeo.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -19,11 +13,11 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
-    private final UserService userService;
 
-    public ProjectController(ProjectService projectService, UserService userService) {
+
+    public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
-        this.userService = userService;
+
     }
 
     @GetMapping()
