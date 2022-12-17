@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
@@ -44,4 +45,5 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     public KeycloakConfigResolver KeycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
+
 }
