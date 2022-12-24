@@ -6,6 +6,7 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
 import com.cydeo.entity.Task;
 import com.cydeo.entity.User;
+import com.cydeo.exception.TicketingProjectException;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.KeycloakService;
@@ -88,19 +89,23 @@ UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
+    public void delete(String username) throws TicketingProjectException {
         User user = userRepository.findByUserName(username);
 
         if (checkIfUserCanBeDeleted(user)) {
             user.setIsDeleted(true);
             user.setUserName(user.getUserName() + "-" + user.getId());
             userRepository.save(user);
+        }else{
+            throw new TicketingProjectException("User can  not be deleted");
         }
 
     }
 
-    private boolean checkIfUserCanBeDeleted(User user) {
-
+    private boolean checkIfUserCanBeDeleted(User user) throws TicketingProjectException {
+if(user==null){
+    throw new TicketingProjectException("User is not found");
+}
         switch (user.getRole().getDescription()) {
             case "Manager":
                 List<ProjectDTO> projectDTOList = projectService.readAllByAssignedManager(user);
