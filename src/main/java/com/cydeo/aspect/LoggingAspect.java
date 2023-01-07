@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Slf4j
 public class LoggingAspect {
 
-   // Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+    //Logger log = LoggerFactory.getLogger(LoggingAspect.class);
 
     private String getUserName(){
         Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
@@ -46,4 +46,5 @@ public class LoggingAspect {
         String username = getUserName();
         log.info("AfterThrowing  -> User : {} - Method : {} - Exception: {}", username, joinPoint.getSignature().toShortString(), exception.getMessage());
     }
+
 }

@@ -1,13 +1,14 @@
 package com.cydeo.exception;
 
 import com.cydeo.annotation.DefaultExceptionMessage;
-import com.cydeo.dto.DefaultExceptionMessageDTO;
+import com.cydeo.dto.DefaultExceptionMessageDto;
 import com.cydeo.entity.ResponseWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
@@ -33,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({Exception    .class, RuntimeException.class, Throwable.class, BadCredentialsException.class})
     public ResponseEntity<ResponseWrapper> genericException(Throwable e, HandlerMethod handlerMethod) {
 
-        Optional<DefaultExceptionMessageDTO> defaultMessage = getMessageFromAnnotation(handlerMethod.getMethod());
+        Optional<DefaultExceptionMessageDto> defaultMessage = getMessageFromAnnotation(handlerMethod.getMethod());
         if (defaultMessage.isPresent() && !ObjectUtils.isEmpty(defaultMessage.get().getMessage())) {
             ResponseWrapper response = ResponseWrapper
                     .builder()
@@ -45,10 +46,10 @@ public class GlobalExceptionHandler {
         }
         return new ResponseEntity<>(ResponseWrapper.builder().success(false).message("Action failed: An error occurred!").code(HttpStatus.INTERNAL_SERVER_ERROR.value()).build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    private Optional<DefaultExceptionMessageDTO> getMessageFromAnnotation(Method method) {
+    private Optional<DefaultExceptionMessageDto> getMessageFromAnnotation(Method method) {
         DefaultExceptionMessage defaultExceptionMessage = method.getAnnotation(DefaultExceptionMessage.class);
         if (defaultExceptionMessage != null) {
-            DefaultExceptionMessageDTO defaultExceptionMessageDto = DefaultExceptionMessageDTO
+            DefaultExceptionMessageDto defaultExceptionMessageDto = DefaultExceptionMessageDto
                     .builder()
                     .message(defaultExceptionMessage.defaultMessage())
                     .build();

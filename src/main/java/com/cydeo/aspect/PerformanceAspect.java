@@ -14,25 +14,29 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class PerformanceAspect {
 
-   // Logger logger = LoggerFactory.getLogger(PerformanceAspect.class);
+    //Logger log = LoggerFactory.getLogger(PerformanceAspect.class);
+
 
     @Pointcut("@annotation(com.cydeo.annotation.ExecutionTime)")
     private void anyExecutionTimeOperation(){}
 
     @Around("anyExecutionTimeOperation()")
-            public Object anyExecutionTimeOperationAdvice(ProceedingJoinPoint proceedingJoinPoint){
+    public Object anyExecutionTimeOperationAdvice(ProceedingJoinPoint proceedingJoinPoint) {
+
         long beforeTime = System.currentTimeMillis();
         Object result = null;
+
         log.info("Execution will start");
         try {
             result = proceedingJoinPoint.proceed();
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-
         long afterTime = System.currentTimeMillis();
-        log.info("Time taken to execute : {} ms - Method: {} - Parameters: {}" , (afterTime-beforeTime), proceedingJoinPoint.getSignature().toShortString(),proceedingJoinPoint.getArgs());
+        log.info("Time taken to execute : {} ms - Method: {} - Parameters: {}", (afterTime-beforeTime),
+                proceedingJoinPoint.getSignature().toShortString(),proceedingJoinPoint.getArgs());
         return result;
     }
+
 
 }
