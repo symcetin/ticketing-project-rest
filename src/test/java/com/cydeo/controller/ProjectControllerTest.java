@@ -149,7 +149,7 @@ class ProjectControllerTest {
         map.add("grant_type", "password");
         map.add("client_id", "ticketing-app");
         map.add("client_secret", "aEerlgG0B0r6BmF6xNKl1x320mxeSv42");
-        map.add("username", "melly");
+        map.add("username", "abcadmin");
         map.add("password", "abc1");
         map.add("scope", "openid");
 
